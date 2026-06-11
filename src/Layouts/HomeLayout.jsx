@@ -8,7 +8,6 @@ const HomeLayout = () => {
         <div>
             <Navbar></Navbar>
             <Outlet>
-                <Home></Home>
             </Outlet>
         </div>
     );

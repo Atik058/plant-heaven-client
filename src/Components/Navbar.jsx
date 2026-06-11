@@ -1,37 +1,58 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import logo from '../assets/logo.png';
-import { NavLink } from 'react-router';
+import { Link, NavLink } from 'react-router';
+import { AuthContext } from './Contexts/AuthContext';
 
 
 
 
 
 const Navbar = () => {
-    const activeClass = "btn btn-soft btn-accent"; // change to your style
-    const defaultClass = "btn  btn-dash btn-secondary";
+
+    const { user, logOut } = useContext(AuthContext)
+    const activeClass = "btn btn-success"; // change to your style
+    const defaultClass = "btn  btn-soft btn-success";
+
+    const handleLogOut = () => {
+        logOut()
+            .then(() => {
+                alert("You Logged Out successfully");
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 
     const NavLinks = (
         <>
             <li>
-                <NavLink className={({ isActive }) => isActive ? activeClass : defaultClass}>
+                <NavLink
+                    to={"/"}
+                    className={({ isActive }) => isActive ? activeClass : defaultClass}>
                     Home
                 </NavLink>
             </li>
 
             <li>
-                <NavLink className={({ isActive }) => isActive ? activeClass : defaultClass}>
+                <NavLink
+                    to={"/all-plants"}
+                    className={({ isActive }) => isActive ? activeClass : defaultClass}>
                     All Plants
                 </NavLink>
             </li>
 
             <li>
-                <NavLink className={({ isActive }) => isActive ? activeClass : defaultClass}>
+                <NavLink
+                    to={"/my-plants"}
+                    className={({ isActive }) => isActive ? activeClass : defaultClass}>
                     My Plants
                 </NavLink>
             </li>
-            
+
             <li>
-                <NavLink className={({ isActive }) => isActive ? activeClass : defaultClass}>
+                <NavLink
+                    to={"/add-plants"}
+                    className={({ isActive }) => isActive ? activeClass : defaultClass}>
                     Add Plants
                 </NavLink>
             </li>
@@ -75,7 +96,32 @@ const Navbar = () => {
                     <svg aria-label="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></g></svg>
 
                 </label>
-                <a className="btn">Button</a>
+                {user ? <div>
+                    <div className="dropdown dropdown-end">
+                        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                            <div className="w-10 rounded-full">
+                                <img
+                                    alt="Tailwind CSS Navbar component"
+                                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                            </div>
+                        </div>
+                        <ul
+                            tabIndex="-1"
+                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                            <li>
+                                <a className="justify-between">
+                                    {user.email}
+                                </a>
+                            </li>
+                            <li><a>Settings</a></li>
+                            <li><button onClick={handleLogOut}>Logout</button></li>
+                        </ul>
+                    </div>
+                </div> : <Link to="/auth/log-in">
+                    <button className='btn mx-4'>Log in</button>
+                </Link>}
+
+
             </div>
         </div>
     );
