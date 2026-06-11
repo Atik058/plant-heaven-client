@@ -1,9 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../Components/Contexts/AuthContext';
+import { Link } from 'react-router';
 
 const SignUp = () => {
 
-    const { signup } = useContext(AuthContext)
+    const { signup, setUser } = useContext(AuthContext)
+    const [error, setError] = useState('');
 
     const handleRegister = (e) => {
         e.preventDefault();
@@ -11,12 +13,22 @@ const SignUp = () => {
         const formData = new FormData(form);
         const { email, password, ...restInfo } = Object.fromEntries(formData.entries());
         console.log(email, password, restInfo)
+        setError('');
+
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+
+        if (!passwordRegex.test(password)) {
+            setError('Password must be at least 6 characters and include both uppercase and lowercase letters');
+            return;
+        }
 
         signup(email, password)
             .then((userCredential) => {
+
                 // Signed up 
                 const user = userCredential.user;
                 console.log("firebase:", user)
+                setUser(user);
                 // ...
                 const userinfo = {
                     email,
@@ -48,6 +60,7 @@ const SignUp = () => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 console.log(errorCode, errorMessage)
+                setError(errorMessage)
                 // ..
             });
     }
@@ -70,11 +83,11 @@ const SignUp = () => {
                                     <input name="imgurl" type="text" className="input" placeholder="Image URL" required />
                                     <label className="label">Password</label>
                                     <input name="password" type="password" className="input" placeholder="Password" required />
-                                    {/* {error && <p style={{ color: 'red' }}>{error}</p>} */}
+                                    {error && <p style={{ color: 'red' }}>{error}</p>}
                                     <div><a className="link link-hover">Forgot password?</a></div>
                                     <button className="btn btn-neutral mt-4">Register</button>
                                     <p>Already have an account?
-                                        {/* <Link className='font-bold' to="/auth/login">Login</Link> */}
+                                        <Link className='font-bold' to="/auth/log-in">Login</Link>
                                     </p>
                                 </fieldset>
                             </form>
