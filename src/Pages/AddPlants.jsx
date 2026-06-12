@@ -1,4 +1,5 @@
 import React from 'react';
+import Swal from 'sweetalert2';
 
 const AddPlants = () => {
     const handleAddPlant = (e) => {
@@ -10,7 +11,23 @@ const AddPlants = () => {
 
         const plantData = Object.fromEntries(formData.entries());
 
-        console.log(plantData);
+        // Send Coffee data to DB
+        fetch(`http://localhost:3000/addplant`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(plantData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log("After adding:", data)
+                Swal.fire({
+                    title: "Plant Added!",
+                    icon: "success",
+                    draggable: true
+                });
+            })
     };
     return (
         <div className='mt-8 p-12 rounded-2xl'>
@@ -87,7 +104,7 @@ const AddPlants = () => {
                                     <span>|</span>
                                     <span>|</span>
                                     <span>|</span>
-                                    
+
                                 </div>
                                 <div className="flex justify-between px-2.5 mt-2 text-xs">
                                     <span>1</span>
@@ -98,7 +115,7 @@ const AddPlants = () => {
                                     <span>6</span>
                                     <span>7</span>
                                     <span>8</span>
-                                    
+
                                 </div>
                             </div>
 

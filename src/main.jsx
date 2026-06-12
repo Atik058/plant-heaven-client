@@ -20,12 +20,14 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        loader: ()=> fetch('http://localhost:3000/plants'),
+        // loader: ()=> fetch('http://localhost:3000/plants'),
         Component: Home
       },
       {
         path: "all-plants",
+        loader: ()=> fetch('http://localhost:3000/plants'),
         Component: AllPlants
+
       },
       {
         path: "my-plants",
