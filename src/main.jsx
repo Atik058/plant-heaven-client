@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        // loader: ()=> fetch('http://localhost:3000/plants'),
+        loader: ()=> fetch('http://localhost:3000/plants'),
         Component: Home
       },
       {

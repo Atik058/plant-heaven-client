@@ -14,7 +14,7 @@ const Home = () => {
                 </div>
                 <Slider></Slider>
             </div>
-            <NewPlants></NewPlants>
+            <NewPlants plants={plants}></NewPlants>
         </div>
     );
 };
