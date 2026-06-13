@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../Components/Contexts/AuthContext';
 import { Link } from 'react-router';
+import Swal from 'sweetalert2';
 
 const SignUp = () => {
 
@@ -28,33 +29,32 @@ const SignUp = () => {
                 // Signed up 
                 const user = userCredential.user;
                 console.log("firebase:", user)
-                setUser(user);
+                // setUser(user);
                 // ...
                 const userinfo = {
                     email,
-                    "last Sign In Time": user.metadata.lastSignInTime,
-                    "creation Time": user.metadata.creationTime,
                     ...restInfo
                 }
                 // save profile data in mdb
-                // fetch(`https://coffee-store-server-auth-production.up.railway.app/users`, {
-                //     method: 'POST',
-                //     headers: {
-                //         'content-type': 'application/json'
-                //     },
-                //     body: JSON.stringify(userinfo)
-                // })
-                //     .then(res => res.json())
-                //     .then(data => {
-                //         console.log("After adding to mdb:", data)
-                //         if (data.insertedId) {
-                //             Swal.fire({
-                //                 title: "User Created!",
-                //                 icon: "success",
-                //                 draggable: true
-                //             });
-                //         }
-                //     })
+                fetch(`http://localhost:3000/adduser`, {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(userinfo)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log("After adding to mdb:", data)
+                        if (data.insertedId) {
+                            setUser({...user, ...restInfo});
+                            Swal.fire({
+                                title: "User Created!",
+                                icon: "success",
+                                draggable: true
+                            });
+                        }
+                    })
             })
             .catch((error) => {
                 const errorCode = error.code;

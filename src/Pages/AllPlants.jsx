@@ -1,6 +1,6 @@
 import React from 'react';
 import PlantCard from '../Components/PlantCard';
-import { useLoaderData } from 'react-router';
+import { Link, useLoaderData } from 'react-router';
 import PlantDetails from './PlantDetails';
 
 const AllPlants = () => {
@@ -54,9 +54,11 @@ const AllPlants = () => {
                                         <div className="stat-desc text-secondary">{plant.lastWateredDate}</div>
                                     </div>
                                 </td>
-                                <th>
+                                <td>
+                                    <Link to={`/plant-details/${plant._id}`}>
                                     <button className="btn btn-ghost btn-s btn-success">View Details</button>
-                                </th>
+                                    </Link>
+                                </td>
                             </tr>)}
 
                         </tbody>
@@ -64,9 +66,7 @@ const AllPlants = () => {
                     </table>
                 </div>
             </div>
-            <div className='mt-8'><p>Plant details</p>
-                <PlantDetails plant={plants[3]} />
-            </div>
+            
         </div>
     );
 };

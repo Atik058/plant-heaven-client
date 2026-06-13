@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../Components/Contexts/AuthContext';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { GoogleAuthProvider } from 'firebase/auth';
 
 const LogIn = () => {
 
     const [error, setError] = useState('');
-    // const location = useLocation();
-    // const navigate = useNavigate();
+    const location = useLocation();
+    const navigate = useNavigate();
     const getErrorMessage = (code) => {
         switch (code) {
             case 'auth/user-not-found':
@@ -33,8 +33,13 @@ const LogIn = () => {
                 const user = result.user;
                 // IdP data available using getAdditionalUserInfo(result)
                 // ...
-                console.log("user:",user)
-                console.log("token:",token)
+                console.log("user:", user)
+                
+
+                setUser({ email : user.email, imgurl : user.photoURL, name : user.displayName })
+                // setUser({...user, ...})
+                navigate(`${location.state ? location.state : "/"}`);
+
             }).catch((error) => {
                 // // Handle Errors here.
                 // const errorCode = error.code;
@@ -43,7 +48,7 @@ const LogIn = () => {
                 // // The AuthCredential type that was used.
                 // const credential = GoogleAuthProvider.credentialFromError(error);
                 const errorMessage = error.message;
-                
+
                 console.log(errorMessage)
                 // ...
             });
@@ -57,8 +62,19 @@ const LogIn = () => {
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
-                setUser(user)
-                // navigate(`${location.state ? location.state : "/"}`);
+
+                fetch(`http://localhost:3000/user/${user.email}`)
+                    .then(res => res.json())
+                    .then(mongo_data => {
+                        console.log("from mongo:", mongo_data)
+                        const { imgurl, name } = mongo_data;
+                        setUser({ ...user, imgurl, name })
+
+                    });
+
+
+                // setUser({...user, ...})
+                navigate(`${location.state ? location.state : "/"}`);
                 // ...
             })
             .catch((error) => {

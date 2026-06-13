@@ -39,6 +39,7 @@ const AuthProvider = ({ children }) => {
         user, setUser, signup, logOut, logIn, loading, setLoading, googleLogIn
     }
     console.log("Context provider:", user)
+    console.log("Context loading:", loading)
     return (
         <AuthContext value={userInfo} >{children}</AuthContext>
     );

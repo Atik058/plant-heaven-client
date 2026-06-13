@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Swal from 'sweetalert2';
+import { AuthContext } from '../Components/Contexts/AuthContext';
 
 const AddPlants = () => {
+    const {user} = useContext(AuthContext)
     const handleAddPlant = (e) => {
         e.preventDefault();
 
@@ -69,12 +71,12 @@ const AddPlants = () => {
 
                         <fieldset className="fieldset">
                             <legend className="fieldset-legend">User Email</legend>
-                            <input type="text" className="input w-full" name='userEmail' placeholder="Enter User Email" />
+                            <input type="text" className="input w-full" name='userEmail' defaultValue={user.email} placeholder="Enter User Email" />
                         </fieldset>
 
                         <fieldset className="fieldset">
                             <legend className="fieldset-legend">User Name</legend>
-                            <input type="text" className="input w-full" name='userName' placeholder="Enter User Name" />
+                            <input type="text" className="input w-full" name='userName' defaultValue={user.name}placeholder="Enter User Name" />
                         </fieldset>
 
                     </div>
