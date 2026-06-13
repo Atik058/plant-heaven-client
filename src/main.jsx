@@ -24,12 +24,12 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        loader: () => fetch('http://localhost:3000/plants'),
+        loader: () => fetch('https://plant-heaven-server-production.up.railway.app/plants'),
         Component: Home
       },
       {
         path: "all-plants",
-        // loader: () => fetch('http://localhost:3000/plants'),
+        // loader: () => fetch('https://plant-heaven-server-production.up.railway.app/plants'),
         Component: AllPlants
 
       },
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
       },
       {
         path: "plant-details/:id",
-        loader: ({ params }) => fetch(`http://localhost:3000/plant/${params.id}`),
+        loader: ({ params }) => fetch(`https://plant-heaven-server-production.up.railway.app/plant/${params.id}`),
         hydrateFallbackElement: <Loading></Loading>,
         element: <PrivateRoute>
           <PlantDetails></PlantDetails>
@@ -57,7 +57,7 @@ const router = createBrowserRouter([
       },
       {
         path: "plant-update/:id",
-        loader: ({ params }) => fetch(`http://localhost:3000/plant/${params.id}`),
+        loader: ({ params }) => fetch(`https://plant-heaven-server-production.up.railway.app/plant/${params.id}`),
         hydrateFallbackElement: <Loading></Loading>,
         element: <PrivateRoute>
           <UpdatePlant></UpdatePlant>

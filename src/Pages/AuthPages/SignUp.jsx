@@ -13,7 +13,7 @@ const SignUp = () => {
         const form = e.target;
         const formData = new FormData(form);
         const { email, password, ...restInfo } = Object.fromEntries(formData.entries());
-        console.log(email, password, restInfo)
+        
         setError('');
 
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
@@ -28,7 +28,7 @@ const SignUp = () => {
 
                 // Signed up 
                 const user = userCredential.user;
-                console.log("firebase:", user)
+                
                 // setUser(user);
                 // ...
                 const userinfo = {
@@ -36,7 +36,7 @@ const SignUp = () => {
                     ...restInfo
                 }
                 // save profile data in mdb
-                fetch(`http://localhost:3000/adduser`, {
+                fetch(`https://plant-heaven-server-production.up.railway.app/adduser`, {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json'
@@ -45,7 +45,7 @@ const SignUp = () => {
                 })
                     .then(res => res.json())
                     .then(data => {
-                        console.log("After adding to mdb:", data)
+                        
                         if (data.insertedId) {
                             setUser({...user, ...restInfo});
                             Swal.fire({

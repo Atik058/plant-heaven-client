@@ -14,7 +14,7 @@ const AddPlants = () => {
         const plantData = Object.fromEntries(formData.entries());
 
         // Send Coffee data to DB
-        fetch(`http://localhost:3000/addplant`, {
+        fetch(`https://plant-heaven-server-production.up.railway.app/addplant`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -23,7 +23,7 @@ const AddPlants = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log("After adding:", data)
+                
                 Swal.fire({
                     title: "Plant Added!",
                     icon: "success",

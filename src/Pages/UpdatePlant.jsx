@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 
 const UpdatePlant = () => {
     const plant = useLoaderData();
-    console.log(plant)
+    
 
     const handleUpdatePlant = (e) => {
         e.preventDefault();
@@ -14,7 +14,7 @@ const UpdatePlant = () => {
         const updatedPlantData = Object.fromEntries(formData.entries());
 
         // Send plant data to DB
-        fetch(`http://localhost:3000/update/${plant._id}`, {
+        fetch(`https://plant-heaven-server-production.up.railway.app/update/${plant._id}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'

@@ -9,7 +9,7 @@ const MyPlants = () => {
     const { user, loading } = useContext(AuthContext)
 
     const handleDeletePlant = (id) => {
-        console.log("deteting:", id)
+        
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -19,15 +19,15 @@ const MyPlants = () => {
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
-            console.log(result.isConfirmed)
+            
 
             if (result.isConfirmed) {
-                fetch(`http://localhost:3000/plant/${id}`, {
+                fetch(`https://plant-heaven-server-production.up.railway.app/plant/${id}`, {
                     method: 'DELETE'
                 })
                     .then(res => res.json())
                     .then(data => {
-                        console.log("After delete:", data)
+                        
                         if (data.deletedCount) Swal.fire({
                             title: "Deleted!",
                             text: "Your file has been deleted.",
@@ -41,10 +41,10 @@ const MyPlants = () => {
 
     useEffect(() => {
         if (user?.email) {
-            fetch(`http://localhost:3000/my-plants/${user.email}`)
+            fetch(`https://plant-heaven-server-production.up.railway.app/my-plants/${user.email}`)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
+                    
                     setPlants(data);
                 });
         }

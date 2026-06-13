@@ -5,7 +5,7 @@ import NewPlants from '../Components/NewPlants';
 
 const Home = () => {
     const plants = useLoaderData()
-    console.log(plants)
+   
     return (
         <div className='mx-3'>
             <div className=' grid grid-cols-2 items-center justify-items-center justify-between gap-4'>

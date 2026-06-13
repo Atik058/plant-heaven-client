@@ -8,13 +8,13 @@ const AllPlants = () => {
     const [sortBy, setSortBy] = useState("all");
     // const plants = useLoaderData()
     useEffect(() => {
-        fetch(`http://localhost:3000/plants?sortBy=${sortBy}`)
+        fetch(`https://plant-heaven-server-production.up.railway.app/plants?sortBy=${sortBy}`)
             .then(res => res.json())
             .then(data => setPlants(data));
     }, [sortBy]);
 
 
-    console.log(plants)
+    
     return (
         <div className="mt-8 mx-4">
             <h2 className='text-center text-success text-3xl font-bold mb-8'>All Plants</h2>

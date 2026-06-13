@@ -33,7 +33,7 @@ const LogIn = () => {
                 const user = result.user;
                 // IdP data available using getAdditionalUserInfo(result)
                 // ...
-                console.log("user:", user)
+                
                 
 
                 setUser({ email : user.email, imgurl : user.photoURL, name : user.displayName })
@@ -49,7 +49,7 @@ const LogIn = () => {
                 // const credential = GoogleAuthProvider.credentialFromError(error);
                 const errorMessage = error.message;
 
-                console.log(errorMessage)
+               
                 // ...
             });
     }
@@ -63,10 +63,10 @@ const LogIn = () => {
                 // Signed in 
                 const user = userCredential.user;
 
-                fetch(`http://localhost:3000/user/${user.email}`)
+                fetch(`https://plant-heaven-server-production.up.railway.app/user/${user.email}`)
                     .then(res => res.json())
                     .then(mongo_data => {
-                        console.log("from mongo:", mongo_data)
+                        
                         const { imgurl, name } = mongo_data;
                         setUser({ ...user, imgurl, name })
 
