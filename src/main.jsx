@@ -15,6 +15,7 @@ import AuthProvider from './Components/Contexts/AuthProvider';
 import PlantDetails from './Pages/PlantDetails';
 import PrivateRoute from './Components/Contexts/PrivateRoute';
 import Loading from './Components/Loading';
+import UpdatePlant from './Pages/UpdatePlant';
 
 const router = createBrowserRouter([
   {
@@ -28,7 +29,7 @@ const router = createBrowserRouter([
       },
       {
         path: "all-plants",
-        loader: () => fetch('http://localhost:3000/plants'),
+        // loader: () => fetch('http://localhost:3000/plants'),
         Component: AllPlants
 
       },
@@ -41,7 +42,10 @@ const router = createBrowserRouter([
       },
       {
         path: "add-plants",
-        Component: AddPlants
+        element: <PrivateRoute>
+          <AddPlants></AddPlants>
+        </PrivateRoute>
+
       },
       {
         path: "plant-details/:id",
@@ -49,6 +53,14 @@ const router = createBrowserRouter([
         hydrateFallbackElement: <Loading></Loading>,
         element: <PrivateRoute>
           <PlantDetails></PlantDetails>
+        </PrivateRoute>
+      },
+      {
+        path: "plant-update/:id",
+        loader: ({ params }) => fetch(`http://localhost:3000/plant/${params.id}`),
+        hydrateFallbackElement: <Loading></Loading>,
+        element: <PrivateRoute>
+          <UpdatePlant></UpdatePlant>
         </PrivateRoute>
       }
     ]

@@ -2,12 +2,44 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLoaderData } from 'react-router';
 import { AuthContext } from '../Components/Contexts/AuthContext';
 import Loading from '../Components/Loading';
+import Swal from 'sweetalert2';
 
 const MyPlants = () => {
-    const [ plants, setPlants ]  = useState([])
+    const [plants, setPlants] = useState([])
     const { user, loading } = useContext(AuthContext)
 
-     useEffect(() => {
+    const handleDeletePlant = (id) => {
+        console.log("deteting:", id)
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            console.log(result.isConfirmed)
+
+            if (result.isConfirmed) {
+                fetch(`http://localhost:3000/plant/${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log("After delete:", data)
+                        if (data.deletedCount) Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                    })
+            }
+
+        });
+    }
+
+    useEffect(() => {
         if (user?.email) {
             fetch(`http://localhost:3000/my-plants/${user.email}`)
                 .then(res => res.json())
@@ -70,8 +102,10 @@ const MyPlants = () => {
                                     <Link to={`/plant-details/${plant._id}`}>
                                         <button className="btn btn-soft btn-sm px-1 btn-success">Details</button>
                                     </Link>
-                                    <button className="btn btn-soft btn-warning btn-sm px-1">Update</button>
-                                    <button className="btn btn-soft btn-error btn-sm px-1">Delete</button>
+                                    <Link to={`/plant-update/${plant._id}`}>
+                                        <button className="btn btn-soft btn-warning btn-sm px-1">Update</button>
+                                    </Link>
+                                    <button onClick={() => handleDeletePlant(plant._id)} className="btn btn-soft btn-error btn-sm px-1">Delete</button>
                                 </td>
                             </tr>)}
 
